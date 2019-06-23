@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .default{
+
+        }
+        .success{
+           background-color: lightgreen;
+        }
+        .primary{
+           background-color: brown;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+
+
+</div>
+
+<script type="text/javascript" src="../vue.min.js"></script>
+<script>
+    //全局组件
+    //插槽：内置组件slot 作为承载分发内容的出口 可在插槽组件放置部分插入任何内容
+    //具名插槽：创建的公共组件内部有许多标签，可使用该插槽来区别
+    Vue.component('Vbtn', {
+        template: `
+        <button class="default" :class='type'>
+        <slot name="primary"></slot>
+        <slot name="success"></slot>
+
+        </button>
+        `,
+        props:['type']
+
+    });
+
+    //局部组件
+    var Vcontent = {
+        template: `
+        <div>
+        我是内容组件
+        <Vbtn type="primary" slot="primary">登录</Vbtn>
+        <Vbtn type="success" slot="success">注册</Vbtn>
+        </div>
+
+        `
+    }
+
+    //在Vue实例的components选项中可以选择添加你想使用的局部组件
+    var App = {
+        template: `
+        <Vcontent/>
+
+        `,
+        components: {
+            Vcontent
+        }
+    };
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {}
+        },
+        components: {
+            App
+        },
+        template: `<App/>`
+    })
+
+</script>
+
+</body>
+</html>
